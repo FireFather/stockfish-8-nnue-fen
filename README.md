@@ -1,7 +1,7 @@
 ### Overview
 # stockfish-8-nnue
 
-An example implementation of nnue_evaluate_fen(const char* fen) function.
+An example implementation of nnue_evaluate_fen(const char* fen), and decode_fen(fen, &player, &castle, &fifty, &move_number, pieces, squares) functions.
 
 Any halfkp_256x2-32-32 NNUE can be used...see:
 
