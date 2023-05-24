@@ -1,6 +1,15 @@
 ### Overview
 # stockfish-8-nnue
-Stockfish 8 with nnue eval
+
+Any halfkp_256x2-32-32 NNUE can be used...see:
+
+https://github.com/FireFather/halfkp_256x2-32-32-nets or
+
+https://tests.stockfishchess.org/nns for a different net.
+
+SF-compatible nets start on page 72-73 (approx.) with dates of 21-05-02 22:26:43 or earlier.
+
+The nnue file size must = 20,530 KB (halfkp_256x2-32-32).
 
 [![Build Status](https://travis-ci.org/official-stockfish/Stockfish.svg?branch=master)](https://travis-ci.org/official-stockfish/Stockfish)
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/official-stockfish/Stockfish?svg=true)](https://ci.appveyor.com/project/mcostalba/stockfish)
