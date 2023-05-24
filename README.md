@@ -1,6 +1,8 @@
 ### Overview
 # stockfish-8-nnue
 
+An example implementation of nnue_evaluate_fen(const char* fen) function.
+
 Any halfkp_256x2-32-32 NNUE can be used...see:
 
 https://github.com/FireFather/halfkp_256x2-32-32-nets or

@@ -785,15 +785,10 @@ namespace {
 template<bool DoTrace>
 Value Eval::evaluate(const Position& pos) {
 
-		//int nnue_score = 0;
-		//if (engine_mode == "hybrid" || engine_mode == "nnue")
-		//{
-			const std::string fenstr = pos.fen();
-			const char* c = fenstr.c_str();
-			int nnue_score = nnue_evaluate_fen(c);
-			//if (engine_mode == "nnue")
-				return Value(nnue_score);
-		//}
+  const std::string fenstr = pos.fen();
+  const char* c = fenstr.c_str();
+  int nnue_score = nnue_evaluate_fen(c);
+  return static_cast<Value>(nnue_score);
 	
   assert(!pos.checkers());
 
