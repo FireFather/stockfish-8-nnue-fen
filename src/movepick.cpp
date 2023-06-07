@@ -20,6 +20,7 @@
 
 #include <cassert>
 
+#include "pragma.h"
 #include "movepick.h"
 #include "thread.h"
 
@@ -58,7 +59,6 @@ namespace {
   }
 
 } // namespace
-
 
 /// Constructors of the MovePicker class. As arguments we pass information
 /// to help it to return the (presumably) good moves first, to decide which
@@ -120,7 +120,6 @@ MovePicker::MovePicker(const Position& p, Move ttm, Value th)
   stage += (ttMove == MOVE_NONE);
 }
 
-
 /// score() assigns a numerical value to each move in a move list. The moves with
 /// highest values will be picked first.
 template<>
@@ -171,7 +170,6 @@ void MovePicker::score<EVASIONS>() {
       else
           m.value = history[pos.moved_piece(m)][to_sq(m)] + fromTo.get(c, m);
 }
-
 
 /// next_move() is the most important method of the MovePicker class. It returns
 /// a new pseudo legal move every time it is called, until there are no more moves

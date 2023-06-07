@@ -28,6 +28,7 @@
 #include "evaluate.h"
 #include "material.h"
 #include "pawns.h"
+#include "pragma.h"
 #include "nnue/nnue.h"
 
 namespace {
@@ -220,7 +221,6 @@ namespace {
   const int BishopCheck       = 538;
   const int KnightCheck       = 874;
 
-
   // eval_init() initializes king and attack bitboards for a given color
   // adding pawn attacks. To be done at the beginning of the evaluation.
 
@@ -247,7 +247,6 @@ namespace {
     else
         ei.kingRing[Them] = ei.kingAttackersCount[Us] = 0;
   }
-
 
   // evaluate_pieces() assigns bonuses and penalties to the pieces of a given
   // color and type.
@@ -376,7 +375,6 @@ namespace {
   Score evaluate_pieces<false, WHITE, KING>(const Position&, EvalInfo&, Score*, const Bitboard*) { return SCORE_ZERO; }
   template<>
   Score evaluate_pieces< true, WHITE, KING>(const Position&, EvalInfo&, Score*, const Bitboard*) { return SCORE_ZERO; }
-
 
   // evaluate_king() assigns bonuses and penalties to a king of a given color
 
@@ -509,7 +507,6 @@ namespace {
     return score;
   }
 
-
   // evaluate_threats() assigns bonuses according to the types of the attacking
   // and the attacked pieces.
 
@@ -596,7 +593,6 @@ namespace {
     return score;
   }
 
-
   // evaluate_passed_pawns() evaluates the passed pawns of the given color
 
   template<Color Us, bool DoTrace>
@@ -680,7 +676,6 @@ namespace {
     return score;
   }
 
-
   // evaluate_space() computes the space evaluation for a given side. The
   // space evaluation is a simple bonus based on the number of safe squares
   // available for minor pieces on the central four files on ranks 2--4. Safe
@@ -719,7 +714,6 @@ namespace {
     return make_score(bonus * weight * weight / 18, 0);
   }
 
-
   // evaluate_initiative() computes the initiative correction value for the
   // position, i.e., second order bonus/malus based on the known attacking/defending
   // status of the players.
@@ -739,7 +733,6 @@ namespace {
 
     return make_score(0, value);
   }
-
 
   // evaluate_scale_factor() computes the scale factor for the winning side
   ScaleFactor evaluate_scale_factor(const Position& pos, const EvalInfo& ei, Value eg) {
@@ -778,19 +771,18 @@ namespace {
 
 } // namespace
 
-
 /// evaluate() is the main evaluation function. It returns a static evaluation
 /// of the position from the point of view of the side to move.
 
 template<bool DoTrace>
 Value Eval::evaluate(const Position& pos) {
 
-  const std::string fenstr = pos.fen();
-  const char* c = fenstr.c_str();
-  int nnue_score = nnue_evaluate_fen(c);
-  return static_cast<Value>(nnue_score);
-	
-  assert(!pos.checkers());
+	const std::string fenstr = pos.fen();
+	const char* c = fenstr.c_str();
+	int nnue_score = nnue_evaluate_fen(c);
+	return Value(nnue_score);
+
+	assert(!pos.checkers());
 
   Score mobility[COLOR_NB] = { SCORE_ZERO, SCORE_ZERO };
   EvalInfo ei;
@@ -895,7 +887,6 @@ Value Eval::evaluate(const Position& pos) {
 // Explicit template instantiations
 template Value Eval::evaluate<true >(const Position&);
 template Value Eval::evaluate<false>(const Position&);
-
 
 /// trace() is like evaluate(), but instead of returning a value, it returns
 /// a string (suitable for outputting to stdout) that contains the detailed

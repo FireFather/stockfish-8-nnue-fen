@@ -30,6 +30,7 @@
 #include "movegen.h"
 #include "movepick.h"
 #include "position.h"
+#include "pragma.h"
 #include "search.h"
 #include "timeman.h"
 #include "thread.h"
@@ -173,7 +174,6 @@ namespace {
 
 } // namespace
 
-
 /// Search::init() is called during startup to initialize various lookup tables
 
 void Search::init() {
@@ -201,7 +201,6 @@ void Search::init() {
   }
 }
 
-
 /// Search::clear() resets search state to zero, to obtain reproducible results
 
 void Search::clear() {
@@ -218,7 +217,6 @@ void Search::clear() {
 
   Threads.main()->previousScore = VALUE_INFINITE;
 }
-
 
 /// Search::perft() is our utility to verify move generation. All the leaf nodes
 /// up to the given depth are generated and counted, and the sum is returned.
@@ -247,7 +245,6 @@ uint64_t Search::perft(Position& pos, Depth depth) {
 }
 
 template uint64_t Search::perft<true>(Position&, Depth);
-
 
 /// MainThread::search() is called by the main thread when the program receives
 /// the UCI 'go' command. It searches from the root position and outputs the "bestmove".
@@ -328,7 +325,6 @@ void MainThread::search() {
 
   std::cout << sync_endl;
 }
-
 
 // Thread::search() is the main iterative deepening loop. It calls search()
 // repeatedly with increasing depth until the allocated thinking time has been
@@ -532,7 +528,6 @@ void Thread::search() {
       std::swap(rootMoves[0], *std::find(rootMoves.begin(),
                 rootMoves.end(), skill.best_move(multiPV)));
 }
-
 
 namespace {
 
@@ -1170,7 +1165,6 @@ moves_loop: // When in check search starts from here
     return bestValue;
   }
 
-
   // qsearch() is the quiescence search function, which is called by the main
   // search function when the remaining depth is zero (or, to be more precise,
   // less than ONE_PLY).
@@ -1378,7 +1372,6 @@ moves_loop: // When in check search starts from here
     return bestValue;
   }
 
-
   // value_to_tt() adjusts a mate score from "plies to mate from the root" to
   // "plies to mate from the current position". Non-mate scores are unchanged.
   // The function is called before storing a value in the transposition table.
@@ -1391,7 +1384,6 @@ moves_loop: // When in check search starts from here
           : v <= VALUE_MATED_IN_MAX_PLY ? v - ply : v;
   }
 
-
   // value_from_tt() is the inverse of value_to_tt(): It adjusts a mate score
   // from the transposition table (which refers to the plies to mate/be mated
   // from current position) to "plies to mate/be mated from the root".
@@ -1403,7 +1395,6 @@ moves_loop: // When in check search starts from here
           : v <= VALUE_MATED_IN_MAX_PLY ? v + ply : v;
   }
 
-
   // update_pv() adds current move and appends child pv[]
 
   void update_pv(Move* pv, Move move, Move* childPv) {
@@ -1412,7 +1403,6 @@ moves_loop: // When in check search starts from here
         *pv++ = *childPv++;
     *pv = MOVE_NONE;
   }
-
 
   // update_cm_stats() updates countermove and follow-up move history
 
@@ -1431,7 +1421,6 @@ moves_loop: // When in check search starts from here
     if (fmh2)
         fmh2->update(pc, s, bonus);
   }
-
 
   // update_stats() updates killers, history, countermove and countermove plus
   // follow-up move history when a new quiet best move is found.
@@ -1466,7 +1455,6 @@ moves_loop: // When in check search starts from here
     }
   }
 
-
   // When playing with strength handicap, choose best move among a set of RootMoves
   // using a statistical rule dependent on 'level'. Idea by Heinz van Saanen.
 
@@ -1500,7 +1488,6 @@ moves_loop: // When in check search starts from here
     return best;
   }
 
-
   // check_time() is used to print debug info and, more importantly, to detect
   // when we are out of available time and thus stop the search.
 
@@ -1528,7 +1515,6 @@ moves_loop: // When in check search starts from here
   }
 
 } // namespace
-
 
 /// UCI::pv() formats PV information according to the UCI protocol. UCI requires
 /// that all (if any) unsearched PV lines are sent using a previous search score.
@@ -1584,7 +1570,6 @@ string UCI::pv(const Position& pos, Depth depth, Value alpha, Value beta) {
 
   return ss.str();
 }
-
 
 /// RootMove::extract_ponder_from_tt() is called in case we have no ponder move
 /// before exiting the search, for instance, in case we stop the search during a

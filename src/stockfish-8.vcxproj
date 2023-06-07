@@ -140,6 +140,7 @@
     <ClInclude Include="material.h" />
     <ClInclude Include="nnue\misc.h" />
     <ClInclude Include="nnue\nnue.h" />
+    <ClInclude Include="pragma.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="movegen.h" />
     <ClInclude Include="movepick.h" />
