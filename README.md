@@ -1,5 +1,5 @@
 ### Overview
-# stockfish-8-nnue
+# stockfish-8-nnue-fen
 
 This is an example of a quick and dirty nnue implementation using the
 'nnue_evaluate_fen(const char* fen)'
