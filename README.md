@@ -1,7 +1,25 @@
 ### Overview
 # stockfish-8-nnue
 
-An example implementation of nnue_evaluate_fen(const char* fen), and decode_fen(fen, &player, &castle, &fifty, &move_number, pieces, squares) functions.
+This is an example of a quick and dirty nnue implementation using the
+'nnue_evaluate_fen(const char* fen)'
+and
+'decode_fen(fen, &player, &castle, &fifty, &move_number, pieces, squares)'
+functions as given in Daniel Shawul's/Cfish excellent nnue probe code https://github.com/dshawul/nnue-probe/
+
+This is an extremely easy way to implement NNUE (halfkp_256x2-32-32).
+
+1. copy the nnue-probe code to your engine's folder
+2. add nnue_init("nn.bin"); to your main() function (or before the input loop in UCI_Loop() function.
+3. add #include "nnue/nnue.h" to evaluate.cpp
+4. add code to the very begginning pf your evaluate function that
+	extracts the fen from current position and
+	calls nnue_evaluate_fen(c)
+			for ex:
+			const std::string fenstr = pos.fen();
+			const char* c = fenstr.c_str();
+			int nnue_score = nnue_evaluate_fen(c);
+			return Value(nnue_score);
 
 Any halfkp_256x2-32-32 NNUE can be used...see:
 
@@ -12,6 +30,12 @@ https://tests.stockfishchess.org/nns for a different net.
 SF-compatible nets start on page 72-73 (approx.) with dates of 21-05-02 22:26:43 or earlier.
 
 The nnue file size must = 20,530 KB (halfkp_256x2-32-32).
+
+This impementation is easy, but slow...the full nuue-probe implementation utilizes piece->square mappings and is much faster & stronger.
+It can be seen demonstrated on SF8 here:
+
+https://github.com/FireFather/stockfish-8-nnue
+
 
 [![Build Status](https://travis-ci.org/official-stockfish/Stockfish.svg?branch=master)](https://travis-ci.org/official-stockfish/Stockfish)
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/official-stockfish/Stockfish?svg=true)](https://ci.appveyor.com/project/mcostalba/stockfish)
